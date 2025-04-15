@@ -13,19 +13,19 @@ warnings.filterwarnings("ignore")
 
 
 class SoleTruth:
-    def __init__(self, model_name:str = r"FineTuned-ViT-Model"):
+    def __init__(self, model_name:str = r"FineTuned-ViT-Model", collection_name = "shoeprints_part1"):
         load_dotenv()
         self.model_name = model_name
-        self.__initialize_qdrant()
+        self.__initialize_qdrant(collection_name)
         self.__load_model()
 
-    def __initialize_qdrant(self) -> None:
+    def __initialize_qdrant(self, collection_name) -> None:
         try:
             self.__qdrant = QdrantClient(
                 url=os.getenv("QDRANT_CLUSTER"),
                 api_key=os.getenv("QDRANT_API_KEY")
             )
-            self.__qdrant_collection_name = "shoeprints_part1"
+            self.__qdrant_collection_name = collection_name 
             print("Qdrant initialized successfully.")
         except Exception as e:
             print(f"Error initializing Qdrant: {e}")
